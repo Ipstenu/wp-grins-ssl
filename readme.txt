@@ -2,18 +2,18 @@
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.0
-Tested up to: 3.4
+Tested up to: 3.5
 Stable tag: 4.2.1
 Donate link: https://www.wepay.com/donations/halfelf-wp
 License: GPL2
 
-WP Grins SSL provides smilies for your comment areas and is compatible with SSL Administration.
+Grins SSL provides smilies for your comment areas and is compatible with SSL Administration.
 
 == Description ==
 
-WP Grins SSL will provide clickable smilies for both the post form in the admin interface and the comments form of your blog.  WP Grins SSL is a fork of WP Grins that allows for use on a site using [Administration over SSL](http://codex.wordpress.org/Administration_Over_SSL) or not, auto-detecting which is why and displaying either way.
+Grins SSL will provide clickable smilies for both the post form in the admin interface and the comments form of your blog. Grins SSL is a fork of WP Grins that allows for use on a site using [Administration over SSL](http://codex.wordpress.org/Administration_Over_SSL) or not, auto-detecting which is why and displaying either way.
 
-As of version 4.0, WP Grins SSL also works on bbPress (the plugin) and has an option to turn it on or off as desired.
+As of version 4.0, Grins SSL also works on bbPress (the plugin) and has an option to turn it on or off as desired.
 
 Tested on Single Site and MultiSite.
 
