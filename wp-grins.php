@@ -1,6 +1,6 @@
 <?php
 
-// WP Grins SSL
+// Grins SSL
 //
 // Original plugin WP Grins
 // Copyright (c) 2004-2007 Alex King
@@ -8,7 +8,7 @@
 //
 // SSL version created on June 20, 2008 by Ronald Huereca
 // SSL version created on Sept 21, 2011 by Mika "Ipstenu" Epstein
-// Copyright 20011 Mika Epstein (email: ipstenu@ipstenu.org)
+// Copyright 2011-2012 Mika Epstein (email: ipstenu@ipstenu.org)
 //
 // This is an add-on for WordPress
 // http://wordpress.org/
@@ -64,10 +64,10 @@ if (!class_exists('WPGrins')) {
 		} //end function wp_grins
 		
 		function add_styles() {
-			wp_enqueue_style('wp-grins', plugins_url('wp-grins-ssl/wp-grins.css'));
+			wp_enqueue_style('wp-grins', plugins_url('wp-grins.css', __FILE__));
 		}
 		function add_scripts() {
-			wp_enqueue_script('wp_grins_ssl', plugins_url('wp-grins-ssl/wp-grins.js'), array("jquery"), 1.0); 
+			wp_enqueue_script('wp_grins_ssl', plugins_url('wp-grins.js', __FILE__), array("jquery"), 1.0); 
 			wp_localize_script( 'wp_grins_ssl', 'wpgrinsssl', $this->get_js_vars());
 		}
 		
