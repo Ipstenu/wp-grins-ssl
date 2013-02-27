@@ -1,6 +1,6 @@
 <?php
 
-// Grins SSL
+// SSL Grins
 //
 // Original plugin WP Grins
 // Copyright (c) 2004-2007 Alex King
@@ -8,7 +8,7 @@
 //
 // SSL version created on June 20, 2008 by Ronald Huereca
 // SSL version created on Sept 21, 2011 by Mika "Ipstenu" Epstein
-// Copyright 2011-2012 Mika Epstein (email: ipstenu@ipstenu.org)
+// Copyright 20011 Mika Epstein (email: ipstenu@ipstenu.org)
 //
 // This is an add-on for WordPress
 // http://wordpress.org/
@@ -20,7 +20,7 @@
 // *****************************************************************
 
 /*
-Plugin Name: WP Grins SSL
+Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
 Version: 4.4
@@ -48,6 +48,7 @@ if (!class_exists('WPGrins')) {
 			echo $this->wp_grins();
 			exit;
 		}
+				
 		function wp_grins() {
 				global $wpsmiliestrans;
 				$grins = '';
@@ -56,18 +57,19 @@ if (!class_exists('WPGrins')) {
 					if (!in_array($grin, $smiled)) {
 						$smiled[] = $grin;
 						$tag = esc_attr(str_replace(' ', '', $tag));
-						$src = esc_url(site_url("wp-includes/images/smilies/{$grin}", "http"));
-						$grins .= "<img src='$src' alt='$tag' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+						$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
+						$grins .= "<img src='$srcurl' alt='$tag' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+						
 					}
 				}
 				return $grins;
 		} //end function wp_grins
 		
 		function add_styles() {
-			wp_enqueue_style('wp-grins', plugins_url('wp-grins.css', __FILE__));
+			wp_enqueue_style('wp-grins', plugins_url('wp-grins-ssl/wp-grins.css'));
 		}
 		function add_scripts() {
-			wp_enqueue_script('wp_grins_ssl', plugins_url('wp-grins.js', __FILE__), array("jquery"), 1.0); 
+			wp_enqueue_script('wp_grins_ssl', plugins_url('wp-grins-ssl/wp-grins.js'), array("jquery"), 1.0); 
 			wp_localize_script( 'wp_grins_ssl', 'wpgrinsssl', $this->get_js_vars());
 		}
 		
@@ -78,11 +80,11 @@ if (!class_exists('WPGrins')) {
     		$ippy_wpgs_bbp_fancy = get_option( '_bbp_use_wp_editor' );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') && !is_admin() ) {
+                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') ) {
                     $this->add_styles();
                 }
               }
-            if ( ( $valueco != '0') && !is_null($valueco) && !is_admin() ) {
+            if ( comments_open() && is_singular() && ( $valueco != '0') && !is_null($valueco) ) {
                 $this->add_styles();
             }
         }		
@@ -93,11 +95,11 @@ if (!class_exists('WPGrins')) {
     		$ippy_wpgs_bbp_fancy = get_option( '_bbp_use_wp_editor' );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') && !is_admin() ) {
+                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') ) {
                     $this->add_scripts();
                 }
               }
-            if ( ( $valueco != '0') && !is_null($valueco)  && !is_admin()) {
+            if ( comments_open() && is_singular() && ( $valueco != '0') && !is_null($valueco) ) {
                 $this->add_scripts();
             }
         }
