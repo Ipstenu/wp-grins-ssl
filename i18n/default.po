@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SSL Grins\n"
-"POT-Creation-Date: 2013-05-14 10:21-0800\n"
-"PO-Revision-Date: 2013-05-14 10:21-0800\n"
+"POT-Creation-Date: 2013-05-14 15:11-0800\n"
+"PO-Revision-Date: 2013-05-14 15:11-0800\n"
 "Last-Translator: Mika Epstein (Ipstenu) <ipstenu@ipstenu.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -14,19 +14,19 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPath-1: ..\n"
 
-#: ../wp-grins.php:37
+#: ../wp-grins.php:36
 msgid "This plugin requires WordPress 3.5"
 msgstr ""
 
-#: ../wp-grins.php:145
-msgid "WP Grins"
+#: ../wp-grins.php:142
+msgid "SSL Grins"
 msgstr ""
 
-#: ../wp-grins.php:156
+#: ../wp-grins.php:153
 msgid "Activate Smilies for comments"
 msgstr ""
 
-#: ../wp-grins.php:159
+#: ../wp-grins.php:156
 msgid "Activate Smilies for bbPress"
 msgstr ""
 
