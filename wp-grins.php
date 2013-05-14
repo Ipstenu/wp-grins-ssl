@@ -6,7 +6,6 @@ Description: A Clickable Smilies hack for WordPress.
 Version: 5.0
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
-Props: Original author, Alex King.  Original fork, Ronald Huereca
 
 Original plugin WP Grins Copyright (c) 2004-2007 Alex King
 http://alexking.org/projects/wordpress
@@ -42,7 +41,6 @@ if (!class_exists('WPGrinsHELF')) {
 
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
-		var $ver;
 
         public function __construct() {
             add_action( 'init', array( $this, 'init' ) );
@@ -53,7 +51,6 @@ if (!class_exists('WPGrinsHELF')) {
     	        'buddypress'    => '0',
     	    );
     	    $this->wpgs_bbp_fancy = get_option('_bbp_use_wp_editor');
-    	    $this->ver = '5.0';
         }
     
         public function init() {
@@ -92,10 +89,10 @@ if (!class_exists('WPGrinsHELF')) {
 		}
 		
 		function add_styles() {
-			wp_enqueue_style('wp-grins', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.css'), false, $this->ver);
+			wp_enqueue_style('wp-grins', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.css'), false, 5.0);
 		}
 		function add_scripts() {
-			wp_enqueue_script('wp_grins_ssl', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.js'), array("jquery"), $this->ver); 
+			wp_enqueue_script('wp_grins_ssl', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.js'), array("jquery"), 5.0); 
 			wp_localize_script( 'wp_grins_ssl', 'wpgrinsssl', $this->get_js_vars());
 		}
 		
@@ -153,22 +150,25 @@ if (!class_exists('WPGrinsHELF')) {
     	function setting_input() {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
     		?>
-    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php if ( ( $options['comments'] != '0') && !is_null($options['comments']) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate Smilies for comments', 'ippy-wpgs'); ?>
+    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'ippy-wpgs'); ?>
     		<?php
     		if ( function_exists('is_bbpress') && ($this->wpgs_bbp_fancy == '0') ) { ?>
-    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php if ( ( $options['bbpress'] != '0') && !is_null($options['bbpress']) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate Smilies for bbPress', 'ippy-wpgs'); } 
-    		else { ?>
-    		  <input type='hidden' id='bbpress' name='ippy_wpgs_options[bbpress]' value='0'> <?php 
-            } ?>
-            <input type='hidden' id='buddypress' name='ippy_wpgs_options[buddypress]' value='0'><?php
+    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'ippy-wpgs'); } 
     	}
     	
     	// Validate user input
     	function validate_options( $input ) {
+    	    $options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
     		$valid = array();
-    		$valid['comments'] = $input['comments'];
-    		$valid['bbpress'] = $input['bbpress'];
-    		$valid['buddypress'] = $input['buddypress'];
+
+    	    foreach ($options as $key=>$value) {
+        	    if (!isset($input[$key])) $input[$key]=0;
+            }
+    	    
+    	    foreach ($options as $key=>$value) {
+        	    $valid[$key] = $input[$key];
+            }
+
     		unset( $input );
     		return $valid;
     	}
