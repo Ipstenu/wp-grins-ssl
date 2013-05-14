@@ -37,57 +37,60 @@ global $wp_version;
 	if (version_compare($wp_version,"3.4","<")) { exit( __('This plugin requires WordPress 3.4', 'ippy-wpg') ); }
 
 
-if (!class_exists('WPGrinsSSLHELF')) {
-    class WPGrinsSSLHELF {
+if (!class_exists('WPGrins')) {
+    class WPGrins	{
+		/**
+		* PHP 5 Constructor
+		*/		
 
-		var $wpg_defaults;
-		var $wpg_bbp_fancy;
 
+		var $wpgs_defaults;
+		var $wpgs_bbp_fancy;
+	
 	    public function __construct() {
 	        add_action( 'init', array( &$this, 'init' ) );
 	        
 	    	// Setting plugin defaults here:
-			$this->wpg_defaults = array(
+			$this->wpgs_defaults = array(
 		        'comments'      => '0',
 		        'bbpress'       => '0',
 		        'buddypress'    => '0',
 		    );
 		
-		    //global $wpg_bbp_fancy;
-		    $this->wpg_bbp_fancy = get_option('_bbp_use_wp_editor');
-	    }
+		    //global $wpgs_bbp_fancy;
+		    $this->wpgs_bbp_fancy = get_option('_bbp_use_wp_editor');
 
-		public function init(){
-			add_action('admin_init', array( $this, 'admin_init'));
+		    // Register and define the settings
+			add_action('admin_init', array(&$this,'admin_init' ) );
 
+			//Scripts
 			add_action('wp_print_scripts', array(&$this,'add_scripts_frontend'),1000);
+			//Styles
 			add_action('wp_print_styles', array(&$this,'add_styles_frontend'));
+			
+			//Ajax
 			add_action('wp_ajax_grins', array(&$this,'ajax_print_grins'));
 			add_action('wp_ajax_nopriv_grins', array(&$this,'ajax_print_grins')); 
-
-			add_action( 'init', array( $this, 'internationalization' ));
-	        add_filter('plugin_row_meta', array( $this, 'donate_link'), 10, 2);
-	        add_filter( 'plugin_action_links', array( $this, 'add_settings_link'), 10, 2 );
 		}
-
 		function ajax_print_grins() {
 			echo $this->wp_grins();
 			exit;
 		}
 				
 		function wp_grins() {
-			global $wpsmiliestrans;
-			$grins = '';
-			$smiled = array();
-			foreach ($wpsmiliestrans as $tag => $grin) {
-				if (!in_array($grin, $smiled)) {
-					$smiled[] = $grin;
-					$tag = esc_attr(str_replace(' ', '', $tag));
-					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
-					$grins .= "<img src='$srcurl' alt='$tag' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+				global $wpsmiliestrans;
+				$grins = '';
+				$smiled = array();
+				foreach ($wpsmiliestrans as $tag => $grin) {
+					if (!in_array($grin, $smiled)) {
+						$smiled[] = $grin;
+						$tag = esc_attr(str_replace(' ', '', $tag));
+						$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
+						$grins .= "<img src='$srcurl' alt='$tag' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+						
+					}
 				}
-			}
-			return $grins;
+				return $grins;
 		} //end function wp_grins
 		
 		function add_styles() {
@@ -99,102 +102,107 @@ if (!class_exists('WPGrinsSSLHELF')) {
 		}
 		
 		function add_styles_frontend() {
-    		$options = wp_parse_args(get_option( 'wpg_options'), $this->wpg_defaults );
+    		$options = get_option('ippy_wpgs_options');
+    		$valuebb = $options['bbpress'];
+    		$valueco = $options['comments'];
+    		$ippy_wpgs_bbp_fancy = get_option( '_bbp_use_wp_editor' );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ($wpgs_bbp_fancy == '0') ) {
+                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') ) {
                     $this->add_styles();
                 }
               }
-            if ( comments_open() && is_singular() && ( $options['comments'] != '0') && !is_null($options['comments']) ) {
+            if ( comments_open() && is_singular() && ( $valueco != '0') && !is_null($valueco) ) {
                 $this->add_styles();
             }
-        }
+        }		
 		function add_scripts_frontend() {
-    		$options = wp_parse_args(get_option( 'wpg_options'), $this->wpg_defaults );
+    		$options = get_option('ippy_wpgs_options');
+    		$valuebb = $options['bbpress'];
+    		$valueco = $options['comments'];
+    		$ippy_wpgs_bbp_fancy = get_option( '_bbp_use_wp_editor' );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ($wpgs_bbp_fancy == '0') ) {
+                if ( is_bbpress()  && ( $valuebb != '0') && !is_null($valuebb) && ($ippy_wpgs_bbp_fancy == '0') ) {
                     $this->add_scripts();
                 }
               }
-            if ( comments_open() && is_singular() && ( $options['comments'] != '0') && !is_null($options['comments']) ) {
+            if ( comments_open() && is_singular() && ( $valueco != '0') && !is_null($valueco) ) {
                 $this->add_scripts();
             }
         }
+            //Returns various JavaScript vars needed for the scripts
+            function get_js_vars() {
+                if (is_ssl()) {
+                   	$schema_ssl = 'https'; 
+                } else { 
+                   	$schema_ssl = 'http'; 
+                }
+                return array(
+                    'Ajax_Url' => admin_url('admin-ajax.php', $schema_ssl),
+                    'LOCATION' => 'admin'
+                );
+            } //end get_js_vars
+		/*END UTILITY FUNCTIONS*/
 
-        function get_js_vars() {
-            if (is_ssl()) {
-               	$schema_ssl = 'https'; 
-            } else { 
-               	$schema_ssl = 'http'; 
-            }
-            return array(
-                'Ajax_Url' => admin_url('admin-ajax.php', $schema_ssl),
-                'LOCATION' => 'admin'
-            );
-        } //end get_js_vars
+	function admin_init(){
 	
-		function admin_init() {
+		register_setting(
+			'discussion',               // settings page
+			'ippy_wpgs_options',         // option name
+			array( $this, 'validate_options') // validation callback
+		);
 		
-			register_setting(
-				'discussion',               // settings page
-				'wgs_options',         // option name
-				array( $this, 'validate_options') // validation callback
-			);
-			
-			add_settings_field(
-				'ippy_wgs_bbpress',         // id
-				'SSL Grins',                // setting title
-				array( $this, 'setting_input' ),   // display callback
-				'discussion',               // settings page
-				'default'                   // settings section
-			);
-		}
-
-		function setting_input() {
-		   $options = wp_parse_args(get_option( 'wpg_options'), $this->wpg_defaults ); ?>
-		   <p><a name="wpg" value="wpg"></a><?php 
-			   if ( function_exists('is_bbpress') && ( $this->wpg_bbp_fancy == '0') ) { ?>
-			       <input id='bbpress' name='wpg_options[bbpress]' type='checkbox' value='1' <?php if ( ( $options['bbpress'] != '0') && !is_null($options['bbpress']) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate smilies for bbPress', 'ippy-wpg'); ?></p> <?php } 
-			       else { ?> <input type='hidden' id='bbpress' name='wpg_options[bbpress]' value='0'> <?php } ?>
-			       <p><input id='comments' name='wpg_options[comments]' type='checkbox' value='1' <?php if ( ( $options['comments'] != '0') && !is_null($options['comments']) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate smilies for comments', 'ippy-wpg'); ?></p>
-			<input type='hidden' id='buddypress' name='wpg_options[buddypress]' value='0'><?php
-		}
+		add_settings_field(
+			'ippy_wpgs_bbpress',         // id
+			'WP Grins',                // setting title
+			array( $this, 'setting_input' ),   // display callback
+			'discussion',               // settings page
+			'default'                   // settings section
+		);
+	}
 	
-		// Validate user input
-		function validate_options( $input ) {
-			$valid = array();
-			$valid['comments'] = $input['comments'];
-			$valid['bbpress'] = $input['bbpress'];
-			$valid['buddypress'] = $input['buddypress'];
-			unset( $input );
-			return $valid;
-		}
+	// Display and fill the form field
+	function setting_input() {
+		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->bcq_defaults );
+		?>
+		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php if ( ( $valueco != '0') && !is_null($valueco) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate Smilies for comments', 'ippy-wpgs'); ?>
+		<?php
+		if ( function_exists('is_bbpress') && ($ippy_wpgs_bbp_fancy == '0') ) { ?>
+	<br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php if ( ( $valuebb != '0') && !is_null($valuebb) ) { echo ' checked="checked"'; } ?> /> <?php _e('Activate Smilies for bbPress', 'ippy-wpgs'); } 
+		else { ?>
+		<input type='hidden' id='bbpress' name='ippy_wpgs_options[bbpress]' value='0'> <?php } 
+	}
+	
+	// Validate user input
+	function validate_options( $input ) {
+		$valid = array();
+		$valid['comments'] = $input['comments'];
+		$valid['bbpress'] = $input['bbpress'];
+		$valid['buddypress'] = $input['buddypress'];
+		unset( $input );
+		return $valid;
+	}
 
-		// Internationalization
-		function internationalization() {
-			load_plugin_textdomain('ippy_wpg', false, dirname(plugin_basename(__FILE__)) . '/i18n' );
-		}
 
-		// donate link on manage plugin page
-		function donate_link($links, $file) {
-			if ($file == plugin_basename(__FILE__)) {
-		    	$donate_link = '<a href="https://www.wepay.com/donations/halfelf-wp">' . __( 'Donate', 'ippy-wpg' ) . '</a>';
-		        $links[] = $donate_link;
-		     }
-		     return $links;
-		}
+    }
+}
 
-		// add settings to manage plugin page
-		function add_settings_link( $links, $file ) {
-			if ( plugin_basename( __FILE__ ) == $file ) {
-				$settings_link = '<a href="' . admin_url( 'options-discussion.php' ) . '#wpg">' . __( 'Settings', 'ippy-wpg' ) . '</a>';
-				array_unshift( $links, $settings_link );
-			}
-			return $links;
+//instantiate the class
+if (class_exists('WPGrins')) {
+	$GrinsSSL = new WPGrins();
+}
+// left in for legacy reasons
+if (!function_exists('wp_grins')) {
+	function wp_grins() { 
+		print('');
+	}
+}
+if (!function_exists('wp_print_grins')) {
+	function wp_print_grins() {
+		global $GrinsSSL;
+		if (isset($GrinsSSL)) {
+			return $GrinsSSL->wp_grins();
 		}
 	}
 }
-
-new WPGrinsSSLHELF();
