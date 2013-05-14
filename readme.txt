@@ -2,7 +2,7 @@
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.0
-Tested up to: 3.5
+Tested up to: 3.6
 Stable tag: 5.0
 Donate link: https://www.wepay.com/donations/halfelf-wp
 License: GPL2
