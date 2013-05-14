@@ -51,6 +51,9 @@ if (!class_exists('WPGrinsHELF')) {
     	        'buddypress'    => '0',
     	    );
     	    $this->wpgs_bbp_fancy = get_option('_bbp_use_wp_editor');
+    	    
+    	   // $this->wpgs_font_emoticons = is_plugin_active('font-emoticons/font-emoticons.php');
+    	    
         }
     
         public function init() {
