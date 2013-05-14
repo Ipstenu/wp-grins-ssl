@@ -34,7 +34,7 @@ Copyright 2011-2013 Mika Epstein (email: ipstenu@ipstenu.org)
 */
 
 global $wp_version;
-	if (version_compare($wp_version,"3.4","<")) { exit( __('This plugin requires WordPress 3.4', 'ippy-wpg') ); }
+	if (version_compare($wp_version,"3.5","<")) { exit( __('This plugin requires WordPress 3.5', 'ippy-wpg') ); }
 
 
 if (!class_exists('WPGrinsHELF')) {
@@ -45,7 +45,7 @@ if (!class_exists('WPGrinsHELF')) {
 		var $ver;
 
         public function __construct() {
-            add_action( 'init', array( &$this, 'init' ) );
+            add_action( 'init', array( $this, 'init' ) );
             
     		$this->wpgs_defaults = array(
     	        'comments'      => '0',
@@ -57,18 +57,18 @@ if (!class_exists('WPGrinsHELF')) {
         }
     
         public function init() {
-			add_action('admin_init', array(&$this,'admin_init' ) );
+			add_action('admin_init', array( $this,'admin_init' ) );
 			add_action( 'init', array( $this, 'internationalization' ));
             add_filter('plugin_row_meta', array( $this, 'donate_link'), 10, 2);
             add_filter( 'plugin_action_links', array( $this, 'add_settings_link'), 10, 2 );
 
 
 			if( !is_admin() ) {
-    			add_action('wp_print_scripts', array(&$this,'add_scripts_frontend'),1000);
-    			add_action('wp_print_styles', array(&$this,'add_styles_frontend'));
+    			add_action('wp_print_scripts', array( $this,'add_scripts_frontend'),1000);
+    			add_action('wp_print_styles', array( $this,'add_styles_frontend'));
 			}
-			add_action('wp_ajax_grins', array(&$this,'ajax_print_grins'));
-			add_action('wp_ajax_nopriv_grins', array(&$this,'ajax_print_grins')); 
+			add_action('wp_ajax_grins', array( $this,'ajax_print_grins'));
+			add_action('wp_ajax_nopriv_grins', array( $this,'ajax_print_grins')); 
 		}
 		
 		function ajax_print_grins() {
