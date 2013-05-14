@@ -167,6 +167,7 @@ if (!class_exists('WPGrinsSSLHELF')) {
 			$valid = array();
 			$valid['comments'] = $input['comments'];
 			$valid['bbpress'] = $input['bbpress'];
+			$valid['buddypress'] = $input['buddypress'];
 			unset( $input );
 			return $valid;
 		}
