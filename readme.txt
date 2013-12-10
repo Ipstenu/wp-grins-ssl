@@ -2,8 +2,8 @@
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.0
-Tested up to: 3.7
-Stable tag: 5.1
+Tested up to: 3.8
+Stable tag: 5.1.1
 Donate link: https://www.wepay.com/donations/halfelf-wp
 License: GPL2
 
@@ -27,6 +27,12 @@ Tested on Single Site and MultiSite.
 3. Look for 'Smilies' and check boxes as desired. (Comments are activated by default)
 
 == Changelog ==
+
+= 5.1.1 =
+* 2013 Dec 9, by Ipstenu
+* Tweak to bbPress call because JJJ hates me (not really)
+* Force prevent any code from running on login pages.
+* Proper Internationalization
 
 = 5.1 =
 * 2013 May 14, by Ipstenu
@@ -110,9 +116,6 @@ Because the previous fork-source was 1.0, and this is really just an extension o
 = Will you support BuddyPress? =
 Eventually. I'm not running it right now, so it's hard to test.
 
-= Why isn't this working on bbPress? =
-Do you have the fancy editor? Yeah it doesn't work. Sorry, I don't know why. This is a 'fast' fix. If you have the bbPress Fancy Editor on, this plugin goes away for bbPress.
+= This isn't showing up on bbPress! =
 
-= Why doesn't this work with Font Emoticons? =
-
-I don't know :( but I'm working on it!
+If you're using the bbPress Fancy Editor, it won't work. I have not yet debugged this.

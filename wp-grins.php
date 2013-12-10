@@ -3,9 +3,11 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.1
+Version: 5.1.1
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
+Text Domain: wp-grins-ssl
+Domain Path: /i18n
 
 Original plugin WP Grins Copyright (c) 2004-2007 Alex King
 http://alexking.org/projects/wordpress
@@ -33,7 +35,7 @@ Copyright 2011-2013 Mika Epstein (email: ipstenu@ipstenu.org)
 */
 
 global $wp_version;
-	if (version_compare($wp_version,"3.5","<")) { exit( __('This plugin requires WordPress 3.5', 'ippy-wpg') ); }
+	if (version_compare($wp_version,"3.7","<")) { exit( __('This plugin requires WordPress 3.7', 'wp-grins-ssl') ); }
 
 
 if (!class_exists('WPGrinsHELF')) {
@@ -50,20 +52,18 @@ if (!class_exists('WPGrinsHELF')) {
     	        'bbpress'       => '0',
     	        'buddypress'    => '0',
     	    );
-    	    $this->wpgs_bbp_fancy = get_option('_bbp_use_wp_editor');
-    	    
-    	   // $this->wpgs_font_emoticons = is_plugin_active('font-emoticons/font-emoticons.php');
+    	    $this->bcq_bbp_fancy = get_option('_bbp_use_wp_editor');
     	    
         }
     
         public function init() {
-			add_action('admin_init', array( $this,'admin_init' ) );
+			add_action( 'admin_init', array( $this,'admin_init' ) );
 			add_action( 'init', array( $this, 'internationalization' ));
-            add_filter('plugin_row_meta', array( $this, 'donate_link'), 10, 2);
+            add_filter( 'plugin_row_meta', array( $this, 'donate_link'), 10, 2);
             add_filter( 'plugin_action_links', array( $this, 'add_settings_link'), 10, 2 );
 
 
-			if( !is_admin() ) {
+			if( !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' )) ) {
     			add_action('wp_print_scripts', array( $this,'add_scripts_frontend'),1000);
     			add_action('wp_print_styles', array( $this,'add_styles_frontend'));
 			}
@@ -103,7 +103,7 @@ if (!class_exists('WPGrinsHELF')) {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ($this->wpgs_bbp_fancy == '0') ) {
+                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ( $this->bcq_bbp_fancy == false ) ) {
                     $this->add_styles();
                 }
               }
@@ -115,7 +115,7 @@ if (!class_exists('WPGrinsHELF')) {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
     		
     		if ( function_exists('is_bbpress') ) {
-                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ($this->wpgs_bbp_fancy == '0') ) {
+                if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ( $this->bcq_bbp_fancy == false ) ) {
                     $this->add_scripts();
                 }
               }
@@ -142,7 +142,7 @@ if (!class_exists('WPGrinsHELF')) {
     		
     		add_settings_field(
     			'ippy_wpgs_bbpress',         // id
-    			__('SSL Grins', 'ippy-wpgs'),                // setting title
+    			__('SSL Grins', 'wp-grins-ssl'),                // setting title
     			array( $this, 'setting_input' ),   // display callback
     			'discussion',               // settings page
     			'default'                   // settings section
@@ -153,10 +153,10 @@ if (!class_exists('WPGrinsHELF')) {
     	function setting_input() {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
     		?>
-    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'ippy-wpgs'); ?>
+    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'wp-grins-ssl'); ?>
     		<?php
-    		if ( function_exists('is_bbpress') && ($this->wpgs_bbp_fancy == '0') ) { ?>
-    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'ippy-wpgs'); } 
+    		if ( function_exists('is_bbpress') && ( $this->bcq_bbp_fancy == false ) ) { ?>
+    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'wp-grins-ssl'); } 
     	}
     	
     	// Validate user input
@@ -178,13 +178,13 @@ if (!class_exists('WPGrinsHELF')) {
 
     	// Internationalization
     	function internationalization() {
-    		load_plugin_textdomain('ippy-wpgs', false, dirname(plugin_basename(__FILE__)) . '/i18n' );
+    		load_plugin_textdomain('wp-grins-ssl', false, dirname(plugin_basename(__FILE__)) . '/i18n' );
     	}
     	
     	// donate link on manage plugin page
     	function donate_link($links, $file) {
     	        if ($file == plugin_basename(__FILE__)) {
-    	                $donate_link = '<a href="https://www.wepay.com/donations/halfelf-wp">' . __( 'Donate', 'ippy-wpgs' ) . '</a>';
+    	                $donate_link = '<a href="https://www.wepay.com/donations/halfelf-wp">' . __( 'Donate', 'wp-grins-ssl' ) . '</a>';
     	                $links[] = $donate_link;
     	        }
     	        return $links;
@@ -193,7 +193,7 @@ if (!class_exists('WPGrinsHELF')) {
     	// add settings to manage plugin page
     	function add_settings_link( $links, $file ) {
     		if ( plugin_basename( __FILE__ ) == $file ) {
-    			$settings_link = '<a href="' . admin_url( 'options-discussion.php' ) . '#wpgs">' . __( 'Settings', 'ippy-wpgs' ) . '</a>';
+    			$settings_link = '<a href="' . admin_url( 'options-discussion.php' ) . '#wpgs">' . __( 'Settings', 'wp-grins-ssl' ) . '</a>';
     			array_unshift( $links, $settings_link );
     		}
     		return $links;
