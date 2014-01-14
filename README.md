@@ -16,4 +16,4 @@ Grins SSL will provide clickable smilies for both the post form in the admin int
 
 * [Plugin Site](http://halfelf.org/plugins/wp-grins-ssl/)
 * [Basic Support](http://wordpress.org/support/plugin/wp-grins-ssl)
-* [Donate](https://www.wepay.com/donations/halfelf-wp)
+* [Donate](https://store.halfelf.org/donate/)

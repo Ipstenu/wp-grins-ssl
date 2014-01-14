@@ -184,7 +184,7 @@ if (!class_exists('WPGrinsHELF')) {
     	// donate link on manage plugin page
     	function donate_link($links, $file) {
     	        if ($file == plugin_basename(__FILE__)) {
-    	                $donate_link = '<a href="https://www.wepay.com/donations/halfelf-wp">' . __( 'Donate', 'wp-grins-ssl' ) . '</a>';
+    	                $donate_link = '<a href="https://store.halfelf.org/donate/">' . __( 'Donate', 'wp-grins-ssl' ) . '</a>';
     	                $links[] = $donate_link;
     	        }
     	        return $links;
