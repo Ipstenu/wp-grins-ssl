@@ -1,9 +1,9 @@
 === SSL Grins ===
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
-Requires at least: 3.0
+Requires at least: 3.7
 Tested up to: 3.8
-Stable tag: 5.1.1
+Stable tag: 5.2
 Donate link: https://store.halfelf.org/donate/
 License: GPL2
 
@@ -27,6 +27,13 @@ Tested on Single Site and MultiSite.
 3. Look for 'Smilies' and check boxes as desired. (Comments are activated by default)
 
 == Changelog ==
+
+= 5.2 = 
+* 2014 Mar 25, by Ipstenu
+* Fixed comment default on to actually be, oh, on.
+* Added in check for 'new' smilies (If you're using [New Smilies](https://github.com/avryl/new-smileys) or, in the future, Jetpack or core, hard to say )
+* Hides specific new smilies ... kind of. It's janky.
+* Dropping support for old WP.
 
 = 5.1.1 =
 * 2013 Dec 9, by Ipstenu
@@ -108,7 +115,7 @@ Tested on Single Site and MultiSite.
 == Frequently Asked Questions ==
 
 = Why don't the smilies show up in my comments form? =
-Your theme must include the `wp_head` call and the comments field in your theme must have an id of `comment`.  This version of the plugin does not support manual insertion, because, frankly, no decent WordPress theme is lacking `wp_head` anymore.
+Your theme must include the `wp_head` call and the comments field in your theme must have an id of `comment`.  This version of the plugin does not support manual insertion, because, frankly, no decent WordPress theme is lacking `wp_head` anymore. If yours is, get a new theme. I'm not supporting bad code (unless it's mine).
 
 = Why did this start with version 2? =
 Because the previous fork-source was 1.0, and this is really just an extension of all that work.  Wanted to keep Ronafly's credits up in there!

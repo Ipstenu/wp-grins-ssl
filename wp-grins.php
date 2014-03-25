@@ -3,7 +3,7 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.1.1
+Version: 5.2
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
@@ -35,12 +35,13 @@ Copyright 2011-2013 Mika Epstein (email: ipstenu@ipstenu.org)
 */
 
 global $wp_version;
-	if (version_compare($wp_version,"3.7","<")) { exit( __('This plugin requires WordPress 3.7', 'wp-grins-ssl') ); }
+	if (version_compare($wp_version,"3.8","<")) { exit( __('This plugin requires WordPress 3.8', 'wp-grins-ssl') ); }
 
 
 if (!class_exists('WPGrinsHELF')) {
     class WPGrinsHELF {
 
+        static $wpg_ver = '5.2'; // Plugin version so I can be lazy
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
 
@@ -48,7 +49,7 @@ if (!class_exists('WPGrinsHELF')) {
             add_action( 'init', array( $this, 'init' ) );
             
     		$this->wpgs_defaults = array(
-    	        'comments'      => '0',
+    	        'comments'      => '1',
     	        'bbpress'       => '0',
     	        'buddypress'    => '0',
     	    );
@@ -61,7 +62,6 @@ if (!class_exists('WPGrinsHELF')) {
 			add_action( 'init', array( $this, 'internationalization' ));
             add_filter( 'plugin_row_meta', array( $this, 'donate_link'), 10, 2);
             add_filter( 'plugin_action_links', array( $this, 'add_settings_link'), 10, 2 );
-
 
 			if( !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' )) ) {
     			add_action('wp_print_scripts', array( $this,'add_scripts_frontend'),1000);
@@ -78,24 +78,32 @@ if (!class_exists('WPGrinsHELF')) {
 				
 		function wp_grins() {
     		global $wpsmiliestrans;
+
 			$grins = '';
 			$smiled = array();
+			$smiled_hide = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito","icon_bear.gif", "icon_wordpress.gif", "icon_martini.gif", "icon_developer.gif", "icon_whiterussian.gif", "icon_burrito.gif", "icon_bear.png", "icon_wordpress.png", "icon_martini.png", "icon_developer.png", "icon_whiterussian.png", "icon_burrito.png", "icon_bear.svg", "icon_wordpress.svg", "icon_martini.svg", "icon_developer.svg", "icon_whiterussian.svg", "icon_burrito.svg");
+			//$smiled_hide = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito");
 			foreach ($wpsmiliestrans as $tag => $grin) {
-				if (!in_array($grin, $smiled)) {
-					$smiled[] = $grin;
-					$tag = esc_attr(str_replace(' ', '', $tag));
-					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
-					$grins .= "<img src='$srcurl' alt='$tag' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
-				}
+			
+                if (!in_array($grin, $smiled) && !in_array($grin, $smiled_hide) ) {
+  					$smiled[] = $grin;
+   					$tag = esc_attr(str_replace(' ', '', $tag));
+   					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
+			        if ( is_plugin_active('new-smileys/new-smileys.php') ) {
+    					$grins .= "<span class='wp-smiley emoji emoji-$grin' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
+                    } else {
+    					$grins .= "<img src='$srcurl' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+                    }
+                }
 			}
 			return $grins;
 		}
 		
 		function add_styles() {
-			wp_enqueue_style('wp-grins', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.css'), false, 5.0);
+			wp_enqueue_style('wp-grins', plugins_url( 'wp-grins.css', __FILE__ , '', self::$wpg_ver ) );
 		}
 		function add_scripts() {
-			wp_enqueue_script('wp_grins_ssl', plugins_url(dirname(plugin_basename(__FILE__)) . '/wp-grins.js'), array("jquery"), 5.0); 
+		    wp_enqueue_script('wp_grins_ssl', plugins_url( 'wp-grins.js', __FILE__), array( 'jquery' ), self::$wpg_ver );
 			wp_localize_script( 'wp_grins_ssl', 'wpgrinsssl', $this->get_js_vars());
 		}
 		
