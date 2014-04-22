@@ -3,7 +3,7 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.2
+Version: 5.2.1
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
@@ -41,7 +41,7 @@ global $wp_version;
 if (!class_exists('WPGrinsHELF')) {
     class WPGrinsHELF {
 
-        static $wpg_ver = '5.2'; // Plugin version so I can be lazy
+        static $wpg_ver = '5.2.1'; // Plugin version so I can be lazy
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
 
@@ -81,11 +81,11 @@ if (!class_exists('WPGrinsHELF')) {
 
 			$grins = '';
 			$smiled = array();
-			$smiled_hide = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito","icon_bear.gif", "icon_wordpress.gif", "icon_martini.gif", "icon_developer.gif", "icon_whiterussian.gif", "icon_burrito.gif", "icon_bear.png", "icon_wordpress.png", "icon_martini.png", "icon_developer.png", "icon_whiterussian.png", "icon_burrito.png", "icon_bear.svg", "icon_wordpress.svg", "icon_martini.svg", "icon_developer.svg", "icon_whiterussian.svg", "icon_burrito.svg");
-			//$smiled_hide = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito");
+			$smiled_hidden = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten");
+
 			foreach ($wpsmiliestrans as $tag => $grin) {
 			
-                if (!in_array($grin, $smiled) && !in_array($grin, $smiled_hide) ) {
+                if (!in_array($grin, $smiled) && !in_array($grin, $smiled_hidden) ) {
   					$smiled[] = $grin;
    					$tag = esc_attr(str_replace(' ', '', $tag));
    					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());

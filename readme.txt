@@ -3,7 +3,7 @@ Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.7
 Tested up to: 3.9
-Stable tag: 5.2
+Stable tag: 5.2.1
 Donate link: https://store.halfelf.org/donate/
 License: GPL2
 
@@ -27,6 +27,11 @@ Tested on Single Site and MultiSite.
 3. Look for 'Smilies' and check boxes as desired. (Comments are activated by default)
 
 == Changelog ==
+
+= 5.2.1 =
+* 2014 Apr 22, by Ipstenu
+* Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies.
+* Cleaned janky hide, since it's only for New Smilies
 
 = 5.2 = 
 * 2014 Mar 25, by Ipstenu
