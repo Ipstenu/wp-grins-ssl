@@ -3,7 +3,7 @@ Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.7
 Tested up to: 4.0
-Stable tag: 5.2.1
+Stable tag: 5.2.3
 Donate link: https://store.halfelf.org/donate/
 License: GPL2
 
@@ -27,6 +27,15 @@ Tested on Single Site and MultiSite.
 3. Look for 'Smilies' and check boxes as desired. (Comments are activated by default)
 
 == Changelog ==
+
+= 5.2.3 =
+* 2014 Oct 4, by Ipstenu
+* Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies to cover for people who leave the folder named 'new-smilies-master' - THANKS GITHUB!
+
+=5.2.2 =
+* 2014 May 15, by Ipstenu
+* Better checks, less jank, proper hiding
+* New smilies hides "uneasy" as well due to JS being a turd
 
 = 5.2.1 =
 * 2014 Apr 22, by Ipstenu
@@ -122,11 +131,15 @@ Tested on Single Site and MultiSite.
 = Why don't the smilies show up in my comments form? =
 Your theme must include the `wp_head` call and the comments field in your theme must have an id of `comment`.  This version of the plugin does not support manual insertion, because, frankly, no decent WordPress theme is lacking `wp_head` anymore. If yours is, get a new theme. I'm not supporting bad code (unless it's mine).
 
+= I have wp_head and they still don't show up =
+
+If you're using Google Pagespeed, be careful how much you concatonate JS and CSS. It's complicated.
+
 = Why did this start with version 2? =
 Because the previous fork-source was 1.0, and this is really just an extension of all that work.  Wanted to keep Ronafly's credits up in there!
 
 = Will you support BuddyPress? =
-Eventually. I'm not running it right now, so it's hard to test.
+Not at this time as I'm not using it enough to make it sustainable.
 
 = This isn't showing up on bbPress! =
 

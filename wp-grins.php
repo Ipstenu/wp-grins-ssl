@@ -3,7 +3,7 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.2.1
+Version: 5.2.3
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
@@ -41,7 +41,7 @@ global $wp_version;
 if (!class_exists('WPGrinsHELF')) {
     class WPGrinsHELF {
 
-        static $wpg_ver = '5.2.1'; // Plugin version so I can be lazy
+        static $wpg_ver = '5.2.2'; // Plugin version so I can be lazy
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
 
@@ -81,16 +81,22 @@ if (!class_exists('WPGrinsHELF')) {
 
 			$grins = '';
 			$smiled = array();
-			$smiled_hidden = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten");
+			$smiled_hidden = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten", "uneasy");
 
 			foreach ($wpsmiliestrans as $tag => $grin) {
 			
-                if (!in_array($grin, $smiled) && !in_array($grin, $smiled_hidden) ) {
+				if ( in_array($grin, $smiled_hidden) ) {
+					$display = 'wpgs-hide';
+				} else {
+					$display = 'wpgs-default';
+				}
+			
+                if (!in_array($grin, $smiled) ) {
   					$smiled[] = $grin;
-   					$tag = esc_attr(str_replace(' ', '', $tag));
+   					$tag = esc_html(str_replace(' ', '', $tag));
    					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
-			        if ( is_plugin_active('new-smileys/new-smileys.php') ) {
-    					$grins .= "<span class='wp-smiley emoji emoji-$grin' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
+			        if ( is_plugin_active('new-smileys/new-smileys.php') || is_plugin_active('new-smileys-master/new-smileys.php') ) {
+    					$grins .= "<span class='wp-smiley emoji emoji-$grin $display' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
                     } else {
     					$grins .= "<img src='$srcurl' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
                     }
