@@ -144,3 +144,9 @@ Not at this time as I'm not using it enough to make it sustainable.
 = This isn't showing up on bbPress! =
 
 If you're using the bbPress Fancy Editor, it won't work. I have not yet debugged this.
+
+= I'm using the new smilies and some are missing! =
+
+Yes, they are. The following are 'hidden': "bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten", "uneasy"
+
+And those aren't the codes. Try <code>(w)</code> or <code>=^-^=</code> and see what happens. These are easter eggs.
