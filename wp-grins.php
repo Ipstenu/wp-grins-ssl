@@ -3,7 +3,7 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.2.3
+Version: 5.3
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
@@ -18,8 +18,8 @@ Copyright 2011-2013 Mika Epstein (email: ipstenu@ipstenu.org)
 
     This file is part of SSL Grins, a plugin for WordPress.
 
-    SSL Grins is free software: you can redistribute it and/or 
-	modify it under the terms of the GNU General Public License as published 
+    SSL Grins is free software: you can redistribute it and/or
+	modify it under the terms of the GNU General Public License as published
 	by the Free Software Foundation, either version 2 of the License, or
     (at your option) any later version.
 
@@ -47,16 +47,16 @@ if (!class_exists('WPGrinsHELF')) {
 
         public function __construct() {
             add_action( 'init', array( $this, 'init' ) );
-            
+
     		$this->wpgs_defaults = array(
     	        'comments'      => '1',
     	        'bbpress'       => '0',
     	        'buddypress'    => '0',
     	    );
     	    $this->bcq_bbp_fancy = get_option('_bbp_use_wp_editor');
-    	    
+
         }
-    
+
         public function init() {
 			add_action( 'admin_init', array( $this,'admin_init' ) );
 			add_action( 'init', array( $this, 'internationalization' ));
@@ -68,14 +68,14 @@ if (!class_exists('WPGrinsHELF')) {
     			add_action('wp_print_styles', array( $this,'add_styles_frontend'));
 			}
 			add_action('wp_ajax_grins', array( $this,'ajax_print_grins'));
-			add_action('wp_ajax_nopriv_grins', array( $this,'ajax_print_grins')); 
+			add_action('wp_ajax_nopriv_grins', array( $this,'ajax_print_grins'));
 		}
-		
+
 		function ajax_print_grins() {
 			echo $this->wp_grins();
 			exit;
 		}
-				
+
 		function wp_grins() {
     		global $wpsmiliestrans;
 
@@ -84,27 +84,35 @@ if (!class_exists('WPGrinsHELF')) {
 			$smiled_hidden = array("bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten", "uneasy");
 
 			foreach ($wpsmiliestrans as $tag => $grin) {
-			
+
 				if ( in_array($grin, $smiled_hidden) ) {
 					$display = 'wpgs-hide';
 				} else {
 					$display = 'wpgs-default';
 				}
-			
+
                 if (!in_array($grin, $smiled) ) {
   					$smiled[] = $grin;
    					$tag = esc_html(str_replace(' ', '', $tag));
    					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
+
+			        // Is New Smilies (the SVG) active?
 			        if ( is_plugin_active('new-smileys/new-smileys.php') || is_plugin_active('new-smileys-master/new-smileys.php') ) {
     					$grins .= "<span class='wp-smiley emoji emoji-$grin $display' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
-                    } else {
+                    }
+                    // Is Ozh's CSS Smilies active?
+                    if ( is_plugin_active('ozh-css-smilies/ozh_css_smilies.php') || is_plugin_active('ozh-css-smilies-master/ozh_css_smilies.php') ) {
+	                    $grins .= "&nbsp;<span title='$grin' alt='$tag' class='wp-smiley ozh_css_smiley $grin' onclick='jQuery.wpgrins.grin(\"$tag\");' ><span>$tag</span></span>&nbsp;";
+                    }
+                    // None of those are active, back to old school
+                    else {
     					$grins .= "<img src='$srcurl' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
                     }
                 }
 			}
 			return $grins;
 		}
-		
+
 		function add_styles() {
 			wp_enqueue_style('wp-grins', plugins_url( 'wp-grins.css', __FILE__ , '', self::$wpg_ver ) );
 		}
@@ -112,10 +120,10 @@ if (!class_exists('WPGrinsHELF')) {
 		    wp_enqueue_script('wp_grins_ssl', plugins_url( 'wp-grins.js', __FILE__), array( 'jquery' ), self::$wpg_ver );
 			wp_localize_script( 'wp_grins_ssl', 'wpgrinsssl', $this->get_js_vars());
 		}
-		
+
 		function add_styles_frontend() {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
-    		
+
     		if ( function_exists('is_bbpress') ) {
                 if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ( $this->bcq_bbp_fancy == false ) ) {
                     $this->add_styles();
@@ -124,10 +132,10 @@ if (!class_exists('WPGrinsHELF')) {
             if ( comments_open() && is_singular() && ( $options['comments'] != '0') && !is_null($options['comments']) ) {
                 $this->add_styles();
             }
-        }		
+        }
 		function add_scripts_frontend() {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
-    		
+
     		if ( function_exists('is_bbpress') ) {
                 if ( is_bbpress()  && ( $options['bbpress'] != '0') && !is_null($options['bbpress']) && ( $this->bcq_bbp_fancy == false ) ) {
                     $this->add_scripts();
@@ -137,9 +145,9 @@ if (!class_exists('WPGrinsHELF')) {
                 $this->add_scripts();
             }
         }
-        
+
         function get_js_vars() {
-            if (is_ssl()) { $schema_ssl = 'https'; } 
+            if (is_ssl()) { $schema_ssl = 'https'; }
             else { $schema_ssl = 'http'; }
             return array(
                 'Ajax_Url' => admin_url('admin-ajax.php', $schema_ssl),
@@ -153,7 +161,7 @@ if (!class_exists('WPGrinsHELF')) {
     			'ippy_wpgs_options',         // option name
     			array( $this, 'validate_options') // validation callback
     		);
-    		
+
     		add_settings_field(
     			'ippy_wpgs_bbpress',         // id
     			__('SSL Grins', 'wp-grins-ssl'),                // setting title
@@ -162,7 +170,7 @@ if (!class_exists('WPGrinsHELF')) {
     			'default'                   // settings section
     		);
     	}
-    	
+
     	// Display and fill the form field
     	function setting_input() {
     		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
@@ -170,9 +178,9 @@ if (!class_exists('WPGrinsHELF')) {
     		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'wp-grins-ssl'); ?>
     		<?php
     		if ( function_exists('is_bbpress') && ( $this->bcq_bbp_fancy == false ) ) { ?>
-    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'wp-grins-ssl'); } 
+    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'wp-grins-ssl'); }
     	}
-    	
+
     	// Validate user input
     	function validate_options( $input ) {
     	    $options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
@@ -181,7 +189,7 @@ if (!class_exists('WPGrinsHELF')) {
     	    foreach ($options as $key=>$value) {
         	    if (!isset($input[$key])) $input[$key]=$this->wpgs_defaults[$key];
             }
-    	    
+
     	    foreach ($options as $key=>$value) {
         	    $valid[$key] = $input[$key];
             }
@@ -194,7 +202,7 @@ if (!class_exists('WPGrinsHELF')) {
     	function internationalization() {
     		load_plugin_textdomain('wp-grins-ssl', false, dirname(plugin_basename(__FILE__)) . '/i18n' );
     	}
-    	
+
     	// donate link on manage plugin page
     	function donate_link($links, $file) {
     	        if ($file == plugin_basename(__FILE__)) {
@@ -203,7 +211,7 @@ if (!class_exists('WPGrinsHELF')) {
     	        }
     	        return $links;
     	}
-    	
+
     	// add settings to manage plugin page
     	function add_settings_link( $links, $file ) {
     		if ( plugin_basename( __FILE__ ) == $file ) {

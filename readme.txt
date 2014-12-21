@@ -28,6 +28,10 @@ Tested on Single Site and MultiSite.
 
 == Changelog ==
 
+= 5.3 =
+* 2014 December, by Ipstenu
+* Adding in support for [Ozh's CSS Smilies](https://github.com/ozh/ozh-css-smilies) because I love the idea.
+
 = 5.2.3 =
 * 2014 Oct 4, by Ipstenu
 * Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies to cover for people who leave the folder named 'new-smilies-master' - THANKS GITHUB!
@@ -42,7 +46,7 @@ Tested on Single Site and MultiSite.
 * Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies.
 * Cleaned janky hide, since it's only for New Smilies
 
-= 5.2 = 
+= 5.2 =
 * 2014 Mar 25, by Ipstenu
 * Fixed comment default on to actually be, oh, on.
 * Added in check for 'new' smilies (If you're using [New Smilies](https://github.com/avryl/new-smileys) or, in the future, Jetpack or core, hard to say )
@@ -67,11 +71,11 @@ Tested on Single Site and MultiSite.
 * Better handling of options
 * Link to settings on plugins page
 
-= 4.4 = 
+= 4.4 =
 * 2013 January 20, by Ipstenu
 * Allowing for filters so you can change the images.
 
-= 4.3 = 
+= 4.3 =
 * 2012 June 18, by Ipstenu
 * bbPress 2.1's Fancy Editor borks this.
 
@@ -116,13 +120,13 @@ Tested on Single Site and MultiSite.
 * Renamed files and pulled into one directory.
 * Compressed files.
 
-= 1.1 = 
+= 1.1 =
 * 04 November 2009 by Ronalfy
 * Fixed bug where grins would show up in the comments panel.
 * Re-did the JavaScript to it's completely separate and only runs when necessary.
 * Added admin panel option to manual insert smilies on a page or a post.
 
-= 1.0 = 
+= 1.0 =
 * 25 October 2009 by Ronalfy
 * First release.  Yay!
 
