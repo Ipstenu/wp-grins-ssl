@@ -41,7 +41,7 @@ global $wp_version;
 if (!class_exists('WPGrinsHELF')) {
     class WPGrinsHELF {
 
-        static $wpg_ver = '5.2.2'; // Plugin version so I can be lazy
+        static $wpg_ver = '5.3'; // Plugin version so I can be lazy
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
 
