@@ -1,2 +1,3 @@
-#wp_grins img {cursor: pointer; cursor: hand;display:inline!important;}
+#wp_grins img {cursor: pointer; cursor: hand;display:inline!important; height:1em}
 #wp_grins span.wp-smiley {cursor: pointer; cursor: hand;}
+#wp_grins span.wpgs-hide {display: none!important;}

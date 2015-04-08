@@ -3,7 +3,7 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.2.3
+Version: 5.3
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
@@ -77,7 +77,7 @@ if (!class_exists('WPGrinsHELF')) {
 		}
 				
 		function wp_grins() {
-    		global $wpsmiliestrans;
+    		global $wpsmiliestrans, $wp_version;
 
 			$grins = '';
 			$smiled = array();
@@ -95,8 +95,20 @@ if (!class_exists('WPGrinsHELF')) {
   					$smiled[] = $grin;
    					$tag = esc_html(str_replace(' ', '', $tag));
    					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
+
 			        if ( is_plugin_active('new-smileys/new-smileys.php') || is_plugin_active('new-smileys-master/new-smileys.php') ) {
     					$grins .= "<span class='wp-smiley emoji emoji-$grin $display' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
+                    } elseif ( $wp_version >= 4.2 ) {
+						$img = $grin;
+						$matches = array();
+						$ext = preg_match( '/\.([^.]+)$/', $img, $matches ) ? strtolower( $matches[1] ) : false;
+						$image_exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+						
+						if ( ! in_array( $ext, $image_exts ) ) {
+							$grins .= "<span class='wp-smiley twemoji' onclick='jQuery.wpgrins.grin(\"$tag\");' >$grin</span>";
+						} else {
+							$grins .= "<img src='$srcurl' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
+						}
                     } else {
     					$grins .= "<img src='$srcurl' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");' />";
                     }

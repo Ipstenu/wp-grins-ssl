@@ -2,8 +2,8 @@
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.7
-Tested up to: 4.1
-Stable tag: 5.2.3
+Tested up to: 4.2
+Stable tag: 5.3
 Donate link: https://store.halfelf.org/donate/
 License: GPL2
 
@@ -27,6 +27,10 @@ Tested on Single Site and MultiSite.
 3. Look for 'Smilies' and check boxes as desired. (Comments are activated by default)
 
 == Changelog ==
+
+= 5.3 =
+* 2015 Apr 8, by Ipstenu
+* Compatibility with Emoji in WP 4.2+
 
 = 5.2.3 =
 * 2014 Oct 4, by Ipstenu
@@ -133,7 +137,11 @@ Your theme must include the `wp_head` call and the comments field in your theme 
 
 = I have wp_head and they still don't show up =
 
-If you're using Google Pagespeed, be careful how much you concatonate JS and CSS. It's complicated.
+If you're using Google Pagespeed, be careful how much you concatenate JS and CSS. It's complicated.
+
+= Three of my smilies look 'weird' =
+
+Are you on WordPress 4.2 or higher? You're probably using emoji. There are three smilies that (for some reason) don't have emoji and default to images. This isn't our fault, it's Twitter. See [Twemoji issue #59](https://github.com/twitter/twemoji/issues/59) for more information, but eventually this will be fixed in WP core itself. At that time, this plugin should magically fix itself.
 
 = Why did this start with version 2? =
 Because the previous fork-source was 1.0, and this is really just an extension of all that work.  Wanted to keep Ronafly's credits up in there!
