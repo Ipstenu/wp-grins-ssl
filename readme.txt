@@ -3,7 +3,7 @@ Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.7
 Tested up to: 4.2
-Stable tag: 5.3
+Stable tag: 5.3.1
 Donate link: https://store.halfelf.org/donate/
 License: GPL2
 
@@ -28,6 +28,10 @@ Tested on Single Site and MultiSite.
 
 == Changelog ==
 
+= 5.3.1 =
+* 2015 May 1, by Ipstenu
+* Fixing vertical align with images that aren't emoji (because they don't have a smile yet)
+
 = 5.3 =
 * 2015 Apr 8, by Ipstenu
 * Compatibility with Emoji in WP 4.2+
@@ -46,7 +50,7 @@ Tested on Single Site and MultiSite.
 * Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies.
 * Cleaned janky hide, since it's only for New Smilies
 
-= 5.2 = 
+= 5.2 =
 * 2014 Mar 25, by Ipstenu
 * Fixed comment default on to actually be, oh, on.
 * Added in check for 'new' smilies (If you're using [New Smilies](https://github.com/avryl/new-smileys) or, in the future, Jetpack or core, hard to say )
@@ -71,11 +75,11 @@ Tested on Single Site and MultiSite.
 * Better handling of options
 * Link to settings on plugins page
 
-= 4.4 = 
+= 4.4 =
 * 2013 January 20, by Ipstenu
 * Allowing for filters so you can change the images.
 
-= 4.3 = 
+= 4.3 =
 * 2012 June 18, by Ipstenu
 * bbPress 2.1's Fancy Editor borks this.
 
@@ -120,13 +124,13 @@ Tested on Single Site and MultiSite.
 * Renamed files and pulled into one directory.
 * Compressed files.
 
-= 1.1 = 
+= 1.1 =
 * 04 November 2009 by Ronalfy
 * Fixed bug where grins would show up in the comments panel.
 * Re-did the JavaScript to it's completely separate and only runs when necessary.
 * Added admin panel option to manual insert smilies on a page or a post.
 
-= 1.0 = 
+= 1.0 =
 * 25 October 2009 by Ronalfy
 * First release.  Yay!
 
@@ -139,9 +143,9 @@ Your theme must include the `wp_head` call and the comments field in your theme 
 
 If you're using Google Pagespeed, be careful how much you concatenate JS and CSS. It's complicated.
 
-= Three of my smilies look 'weird' =
+= Some of my smilies look 'weird' =
 
-Are you on WordPress 4.2 or higher? You're probably using emoji. There are three smilies that (for some reason) don't have emoji and default to images. This isn't our fault, it's Twitter. See [Twemoji issue #59](https://github.com/twitter/twemoji/issues/59) for more information, but eventually this will be fixed in WP core itself. At that time, this plugin should magically fix itself.
+Are you on WordPress 4.2 or higher? You're probably using emoji. There are four smilies that (for some reason) don't have emoji and default to images. This isn't our fault, it's Twitter. See [Twemoji issue #59](https://github.com/twitter/twemoji/issues/59) for more information, but eventually this will be fixed in WP core itself. At that time, this plugin should magically fix itself.
 
 = Why did this start with version 2? =
 Because the previous fork-source was 1.0, and this is really just an extension of all that work.  Wanted to keep Ronafly's credits up in there!
@@ -153,8 +157,12 @@ Not at this time as I'm not using it enough to make it sustainable.
 
 If you're using the bbPress Fancy Editor, it won't work. I have not yet debugged this.
 
-= I'm using the new smilies and some are missing! =
+= Why are some smilies missing? =
 
-Yes, they are. The following are 'hidden': "bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten", "uneasy"
+If you mean some of the 'new .com smilies,' then yes, they are. The following are 'hidden': "bear", "wordpress", "martini", "developer", "whiterussian", "burrito", "facepalm", "kitten", "uneasy"
 
 And those aren't the codes. Try <code>(w)</code> or <code>=^-^=</code> and see what happens. These are easter eggs.
+
+= Does this support emoji? =
+
+Yes. Full WordPress 4.2 support. It's built to only show the default smilies, though otherwise the line would be too long.
