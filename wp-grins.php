@@ -3,18 +3,18 @@
 Plugin Name: SSL Grins
 Plugin URI: http://halfelf.org/plugins/wp-grins-ssl
 Description: A Clickable Smilies hack for WordPress.
-Version: 5.3.1
+Version: 5.3.2
 Author: Alex King, Ronald Huereca, Mika Epstein
 Author URI: http://www.ipstenu.org
 Text Domain: wp-grins-ssl
-Domain Path: /i18n
 
-Original plugin WP Grins Copyright (c) 2004-2007 Alex King
-http://alexking.org/projects/wordpress
+	Original plugin WP Grins Copyright (c) 2004-2007 Alex King
+	http://alexking.org/projects/wordpress
+	RIP Alex
 
-SSL version created on June 20, 2008 by Ronald Huereca
-SSL fork created on Sept 21, 2011 by Mika "Ipstenu" Epstein
-Copyright 2011-2015 Mika Epstein (email: ipstenu@ipstenu.org)
+	SSL version created on June 20, 2008 by Ronald Huereca
+	SSL fork created on Sept 21, 2011 by Mika "Ipstenu" Epstein
+	Copyright 2011-2016 Mika Epstein (email: ipstenu@ipstenu.org)
 
     This file is part of SSL Grins, a plugin for WordPress.
 
@@ -31,17 +31,18 @@ Copyright 2011-2015 Mika Epstein (email: ipstenu@ipstenu.org)
     You should have received a copy of the GNU General Public License
     along with WordPress.  If not, see <http://www.gnu.org/licenses/>.
 
-
 */
 
 global $wp_version;
-	if (version_compare($wp_version,"3.8","<")) { exit( __('This plugin requires WordPress 3.8', 'wp-grins-ssl') ); }
 
+if (version_compare($wp_version,"3.8","<")) { 
+	exit( __('This plugin requires WordPress 3.8', 'wp-grins-ssl') ); 
+}
 
 if (!class_exists('WPGrinsHELF')) {
     class WPGrinsHELF {
 
-        static $wpg_ver = '5.3.1'; // Plugin version so I can be lazy
+        static $wpg_ver = '5.3.2'; // Plugin version so I can be lazy
 		var $wpgs_defaults;
 		var $wpgs_bbp_fancy;
 
@@ -59,7 +60,6 @@ if (!class_exists('WPGrinsHELF')) {
 
         public function init() {
 			add_action( 'admin_init', array( $this,'admin_init' ) );
-			add_action( 'init', array( $this, 'internationalization' ));
             add_filter( 'plugin_row_meta', array( $this, 'donate_link'), 10, 2);
             add_filter( 'plugin_action_links', array( $this, 'add_settings_link'), 10, 2 );
 
@@ -97,7 +97,7 @@ if (!class_exists('WPGrinsHELF')) {
    					$srcurl = apply_filters('smilies_src', includes_url("images/smilies/$grin"), $grin, site_url());
 
 			        if ( is_plugin_active('new-smileys/new-smileys.php') || is_plugin_active('new-smileys-master/new-smileys.php') ) {
-    					$grins .= "<span class='wp-smiley emoji emoji-$grin $display' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
+    						$grins .= "<span class='wp-smiley emoji emoji-$grin $display' alt='$tag' title='$grin' onclick='jQuery.wpgrins.grin(\"$tag\");'>$tag</span>";
                     } elseif ( $wp_version >= 4.2 ) {
 						$img = $grin;
 						$matches = array();
@@ -175,55 +175,50 @@ if (!class_exists('WPGrinsHELF')) {
     		);
     	}
 
-    	// Display and fill the form field
-    	function setting_input() {
-    		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
-    		?>
-    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'wp-grins-ssl'); ?>
-    		<?php
-    		if ( function_exists('is_bbpress') && ( $this->bcq_bbp_fancy == false ) ) { ?>
-    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'wp-grins-ssl'); }
-    	}
+	    	// Display and fill the form field
+	    	function setting_input() {
+	    		$options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
+	    		?>
+	    		<a name="wpgs" value="wpgs"></a><input id='comments' name='ippy_wpgs_options[comments]' type='checkbox' value='1' <?php checked( $options['comments'], 1 ); ?> /> <?php _e('Activate Smilies for comments', 'wp-grins-ssl'); ?>
+	    		<?php
+	    		if ( function_exists('is_bbpress') && ( $this->bcq_bbp_fancy == false ) ) { ?>
+	    		  <br /><input id='bbpress' name='ippy_wpgs_options[bbpress]' type='checkbox' value='1' <?php checked( $options['bbpress'], 1 ); ?> /> <?php _e('Activate Smilies for bbPress', 'wp-grins-ssl'); }
+	    	}
 
-    	// Validate user input
-    	function validate_options( $input ) {
-    	    $options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
-    		$valid = array();
+	    	// Validate user input
+	    	function validate_options( $input ) {
+	    	    $options = wp_parse_args(get_option( 'ippy_wpgs_options'), $this->wpgs_defaults );
+	    		$valid = array();
+	
+	    	    foreach ($options as $key=>$value) {
+	        	    if (!isset($input[$key])) $input[$key]=$this->wpgs_defaults[$key];
+	            }
+	
+	    	    foreach ($options as $key=>$value) {
+	        	    $valid[$key] = $input[$key];
+	            }
+	
+	    		unset( $input );
+	    		return $valid;
+	    	}
 
-    	    foreach ($options as $key=>$value) {
-        	    if (!isset($input[$key])) $input[$key]=$this->wpgs_defaults[$key];
-            }
-
-    	    foreach ($options as $key=>$value) {
-        	    $valid[$key] = $input[$key];
-            }
-
-    		unset( $input );
-    		return $valid;
-    	}
-
-    	// Internationalization
-    	function internationalization() {
-    		load_plugin_textdomain('wp-grins-ssl', false, dirname(plugin_basename(__FILE__)) . '/i18n' );
-    	}
-
-    	// donate link on manage plugin page
-    	function donate_link($links, $file) {
+		// donate link on manage plugin page
+		function donate_link($links, $file) {
     	        if ($file == plugin_basename(__FILE__)) {
     	                $donate_link = '<a href="https://store.halfelf.org/donate/">' . __( 'Donate', 'wp-grins-ssl' ) . '</a>';
     	                $links[] = $donate_link;
     	        }
     	        return $links;
-    	}
-
-    	// add settings to manage plugin page
-    	function add_settings_link( $links, $file ) {
-    		if ( plugin_basename( __FILE__ ) == $file ) {
-    			$settings_link = '<a href="' . admin_url( 'options-discussion.php' ) . '#wpgs">' . __( 'Settings', 'wp-grins-ssl' ) . '</a>';
-    			array_unshift( $links, $settings_link );
     		}
-    		return $links;
-    	}
+
+	    	// add settings to manage plugin page
+	    	function add_settings_link( $links, $file ) {
+	    		if ( plugin_basename( __FILE__ ) == $file ) {
+	    			$settings_link = '<a href="' . admin_url( 'options-discussion.php' ) . '#wpgs">' . __( 'Settings', 'wp-grins-ssl' ) . '</a>';
+	    			array_unshift( $links, $settings_link );
+	    		}
+	    		return $links;
+	    	}
     }
 }
 

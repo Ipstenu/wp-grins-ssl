@@ -1,0 +1,97 @@
+= 5.2.3 =
+* 2014 Oct 4, by Ipstenu
+* Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies to cover for people who leave the folder named 'new-smilies-master' - THANKS GITHUB!
+
+=5.2.2 =
+* 2014 May 15, by Ipstenu
+* Better checks, less jank, proper hiding
+* New smilies hides "uneasy" as well due to JS being a turd
+
+= 5.2.1 =
+* 2014 Apr 22, by Ipstenu
+* Adjusting check for [New Smilies](https://github.com/avryl/new-smileys)' new smilies.
+* Cleaned janky hide, since it's only for New Smilies
+
+= 5.2 =
+* 2014 Mar 25, by Ipstenu
+* Fixed comment default on to actually be, oh, on.
+* Added in check for 'new' smilies (If you're using [New Smilies](https://github.com/avryl/new-smileys) or, in the future, Jetpack or core, hard to say )
+* Hides specific new smilies ... kind of. It's janky.
+* Dropping support for old WP.
+
+= 5.1.1 =
+* 2013 Dec 9, by Ipstenu
+* Tweak to bbPress call because JJJ hates me (not really)
+* Force prevent any code from running on login pages.
+* Proper Internationalization
+
+= 5.1 =
+* 2013 May 14, by Ipstenu
+* Small conflict with one of my plugins
+* Major conflict with font-emoticons
+
+= 5.0 =
+* 2013 May 13, by Ipstenu
+* Internationalization
+* Proper singletons and checking
+* Better handling of options
+* Link to settings on plugins page
+
+= 4.4 =
+* 2013 January 20, by Ipstenu
+* Allowing for filters so you can change the images.
+
+= 4.3 =
+* 2012 June 18, by Ipstenu
+* bbPress 2.1's Fancy Editor borks this.
+
+= 4.2.1 =
+* 2012 June 02, by Ipstenu
+* Typos. A-freaking-gain
+
+= 4.2 =
+* 2012 June 02, by Ipstenu
+* bbPress refining (testing with 2.1 as well since that's a thing)
+
+= 4.1 =
+* 2012 May 07, by Ipstenu
+* bbPress is an option.
+
+= 4.0 =
+* 27 April 2012 by Ipstenu
+* Major bump. Why? Oh this little thing I like to call bbPress. Fully supported.
+
+= 3.1 =
+* 17 April 2012 by Ipstenu
+* Trying to fix why it decides, magically, not to show up. Sometimes. Should work. Works on 3.4...
+
+= 3.0 =
+* 22 February 2012 by Ipstenu
+* Reverted back to Alex's use of Prototype because something went funky cold medina with ajax.
+
+= 2.2 =
+* 1 October 2011 by Ipstenu
+* Minification for faster everythinging.
+
+= 2.1 =
+* 22 September 2011 by Ipstenu
+* Removing PHP 4 support (WP doesn't).
+* Cleaning out unused aspects from removal of admin panel.
+
+= 2.0 =
+* 21 September 2011 by Ipstenu
+* Fixed issue with SSL adminstration causing the icons not to show up.
+* Removed admin panel. It's 2011. If your theme doesn't have wp_head, you have other issues.
+* Consolidated stylesheets (dropping support for IE 6).
+* Renamed files and pulled into one directory.
+* Compressed files.
+
+= 1.1 =
+* 04 November 2009 by Ronalfy
+* Fixed bug where grins would show up in the comments panel.
+* Re-did the JavaScript to it's completely separate and only runs when necessary.
+* Added admin panel option to manual insert smilies on a page or a post.
+
+= 1.0 =
+* 25 October 2009 by Ronalfy
+* First release.  Yay!
