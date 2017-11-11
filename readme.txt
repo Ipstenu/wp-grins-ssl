@@ -2,9 +2,9 @@
 Tags: clickable, smilies, comments, bbpress, wpgrins
 Contributors: alexkingorg, ronalfy, Ipstenu
 Requires at least: 3.7
-Tested up to: 4.7
+Tested up to: 4.9
 Stable tag: 5.3.2
-Donate link: https://store.halfelf.org/donate/
+Donate link: https://ko-fi.com/A236CENl/
 License: GPL2
 
 SSL Grins provides smilies for your comment areas and is compatible with SSL Administration.
@@ -18,7 +18,7 @@ As of version 4.0, SSL Grins also works on bbPress (the plugin) and has an optio
 Tested on Single Site and MultiSite.
 
 * [Plugin Site](http://halfelf.org/plugins/wp-grins-ssl/)
-* [Donate](https://store.halfelf.org/donate/)
+* [Donate](https://ko-fi.com/A236CENl/)
 
 == Installation ==
 
